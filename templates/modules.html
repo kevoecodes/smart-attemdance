@@ -1,0 +1,131 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en" dir="ltr">
+
+
+{% include 'head.html' %}
+
+<body class="layout-light side-menu overlayScroll">
+    <!-- <div class="mobile-search"></div> -->
+
+    <div class="mobile-author-actions"></div>
+    {% include 'header.html' %}
+    <main class="main-content">
+
+        {% include 'sidebar.html' %}
+
+        <div class="contents">
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+
+                        <div class="breadcrumb-main">
+                            <h4 class="text-capitalize breadcrumb-title">Courses</h4>
+                            {%if request.user.is_staff%}
+                            <div class="breadcrumb-action justify-content-center flex-wrap">                                                        
+                                <div class="action-btn">
+                                    <a href="register-module" class="btn btn-sm btn-primary btn-add">
+                                        <i class="la la-plus"></i> Register Course</a>
+                                </div>
+                            </div>
+                            {%endif%}
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+
+                        <div class="card">
+                            <div class="card-body p-0">
+                                <div class="table4  p-25 bg-white mb-30">
+                                    <div class="table-responsive">
+                                        <table class="table mb-0">
+                                            <thead>
+                                                <tr class="userDatatable-header">
+                                                    <th>
+                                                        <span class="userDatatable-title">Course Name</span>
+                                                    </th>
+                                                    <th>
+                                                        <span class="userDatatable-title">Course Code</span>
+                                                    </th>
+                                                    <!-- <th>
+                                                        <span class="userDatatable-title">Gender</span>
+                                                    </th> -->
+                                                    <!-- <th>
+                                                        <span class="userDatatable-title">Tariff</span>
+                                                    </th> -->
+                                                    <th>
+                                                        <span class="userDatatable-title">Action</span>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for module in modules %}
+
+                                                <tr>
+                                                    <td>
+                                                        <div class="userDatatable-content">
+                                                            {{ module.module_name }}
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="userDatatable-content">
+                                                            {{ module.module_code }}
+                                                        </div>
+                                                    </td>
+                                                    <!-- <td>
+                                                        <div class="userDatatable-content">
+                                                            {{ student.gender }}
+                                                        </div>
+                                                    </td> -->
+
+                                                    <!-- <td>
+                                                        <div class="userDatatable-content">
+                                                            {{ user.tariff }}
+                                                        </div>
+                                                    </td> -->
+
+                                                    <td>
+                                                        <div class="userDatatable-content" style="display: flex;">
+
+                                                            <a href="/edit-module/{{module.id}}" class="btn btn-outline-success">View</a>
+                                                            
+                                                        </div>
+                                                    </td>
+
+                                                </tr>
+
+                                                {% endfor %}
+                                              
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- ends: card -->
+
+                </div>
+            </div>
+        </div>
+
+        </div>
+        {% include 'footer.html' %}
+    </main>
+   {% include 'overlayer.html' %}
+
+    <!-- <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDduF2tLXicDEPDMAtC6-NLOekX0A5vlnY"></script> -->
+    <!-- inject:js-->
+    <script src="{% static 'assets/js/plugins.min.js' %}"></script>
+    <script src="{% static 'assets/js/script.min.js' %}"></script>
+    <!-- endinject-->
+</body>
+
+</html>

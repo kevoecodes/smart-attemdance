@@ -1,0 +1,44 @@
+{% load static %}
+
+
+<aside class="sidebar">
+    <div class="sidebar__menu-group">
+        <ul class="sidebar_nav">
+            <li class="menu-title">
+                <span>Main menu</span>
+            </li>
+            <li class="has-child open">
+                <a href="#" class="active">
+                    <span data-feather="home" class="nav-icon"></span>
+                    <span class="menu-text">Dashboard</span>
+                    <span class="toggle-icon"></span>
+                </a>
+                <ul>
+                    <li>
+                        <a class="active" href="/">Overview</a>
+                    </li>
+                    {%if request.user.is_staff or request.user.last_name == '3'%}
+                    <li>
+                        <a class="" href="/view-students">Students</a>
+                    </li>
+                    <li>
+                        <a class="" href="/staffs">Staffs</a>
+                    </li>
+                    
+                    <li>
+                        <a class="class-attendance" href="/modules">Courses Manager</a>
+                    </li>
+                    <li>
+                        <a class="class-attendance" href="/class-attendance">Attendance</a>
+                    </li>
+                    {%endif%}
+                    <!-- <li>
+                        <a class="" href="generate-report">Report</a>
+                    </li> -->
+
+                </ul>
+            </li>
+
+        </ul>
+    </div>
+</aside>

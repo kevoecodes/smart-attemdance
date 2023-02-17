@@ -1,0 +1,268 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en" dir="ltr">
+
+
+<!-- Mirrored from demo.jsnorm.com/html/strikingdash/strikingdash/ltr/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 04 Mar 2022 08:36:29 GMT -->
+{% include 'head.html' %}
+
+<body class="layout-light side-menu overlayScroll">
+    <div class="mobile-search"></div>
+
+    <div class="mobile-author-actions"></div>
+        {% include 'header.html' %}
+    <main class="main-content">
+
+        {% include 'sidebar.html' %}
+        <div class="contents">
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+
+                        <div class="breadcrumb-main">
+                            <h4 class="text-capitalize breadcrumb-title">Dashboard</h4>
+                            <div class="breadcrumb-action justify-content-center flex-wrap">
+                                <!-- <div class="action-btn">
+                                    <a href="#" class="btn btn-sm btn-primary btn-add">
+                                        <i class="la la-plus"></i> Add New</a>
+                                </div> -->
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-xxl-6 col-12">
+                        <div class="row" style="margin: 0;">
+                            <div class="col-md-6 mb-25">
+                                <div class="forcast-cardbox">
+                                    <h6 class="forcast-title"> Total Students</h6>
+                                    <div class="forcast-details" style="margin: 0;">
+                                        <h1 class="forcast-value">{{ totalStudents }}</h1>
+                                        <!-- <p class="forcast-status">
+                                            <span class="percentage color-success">
+                                                <span data-feather="arrow-up"></span>
+                                            <span> 100%</span>
+                                            </span>
+                                            <span class="forcast-text">Since last month</span>
+                                        </p> -->
+                                    </div>
+                                    <!-- <div class="forcast__chart">
+                                        <div class="parentContainer" style="padding: 10px;">
+
+
+                                            <div>
+                                                <canvas id="lineChartforcastOne"></canvas>
+                                            </div>
+
+
+                                        </div>
+                                    </div> -->
+                                </div>
+                                <!-- ends: .forcast-cardbox -->
+                            </div>
+                            <div class="col-md-6 mb-25">
+                                <div class="forcast-cardbox">
+                                    <h6 class="forcast-title">Present in class</h6>
+                                    <div class="forcast-details">
+                                        <h1 class="forcast-value" id="avail">{{ avail }} </h1>
+                                        <p class="forcast-status">
+                                            <!-- <span class="percentage color-success">
+                                                <span data-feather="arrow-up"></span>
+                                            <span>100%</span>
+                                            </span>
+                                            <span class="forcast-text">Since last month</span> -->
+                                        </p>
+                                    </div>
+                                   <!--  <div class="forcast__chart">
+                                        <div class="parentContainer">
+
+
+                                            <div>
+                                                <canvas id="lineChartforcastTwo"></canvas>
+                                            </div>
+
+
+                                        </div>
+                                    </div> -->
+                                </div>
+                                <!-- ends: .forcast-cardbox -->
+                            </div>
+                            
+                        </div>
+                        <div class="row" style="margin: 0;">
+                            <div class="col-12">
+                                <h1>{% if currentClass == None %} No Current Class {% else %} {{currentClass.module_code}} Today's Attendance ({{currentClass.module_name}}) {%endif%} </h1>
+                                <div class="card">
+                                    <div class="card-body p-0">
+                                        <div class="table4  p-25 bg-white mb-30">
+                                            <div class="table-responsive">
+                                                <table class="table mb-0">
+                                                    <thead>
+                                                        <tr class="userDatatable-header">
+                                                            <th>
+                                                                <span class="userDatatable-title">Full Name</span>
+                                                            </th>
+                                                            <th>
+                                                                <span class="userDatatable-title">Registration Number</span>
+                                                            </th>
+                                                            <!-- <th>
+                                                                <span class="userDatatable-title">Gender</span>
+                                                            </th> -->
+                                                            <!-- <th>
+                                                                <span class="userDatatable-title">Tariff</span>
+                                                            </th> -->
+                                                            <th>
+                                                                <span class="userDatatable-title">Time</span>
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="tbody_data">
+                                                        {% for att in att_data %}
+        
+                                                        <tr>
+                                                            <td>
+                                                                <div class="userDatatable-content">
+                                                                    {{ att.full_name }}
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="userDatatable-content">
+                                                                    {{ att.regNo }}
+                                                                </div>
+                                                            </td>
+                                                            
+        
+                                                            <td>
+                                                                <div class="userDatatable-content">
+                                                                    {{ att.att_time }}
+                                                                </div>
+                                                            </td>
+        
+                                                            
+        
+                                                        </tr>
+        
+                                                        {% endfor %}
+                                                      
+        
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+        
+                            </div>
+        
+                            <!-- ends: card -->
+        
+                        </div>
+
+                    </div>
+                   
+                </div>
+            </div>
+
+        </div>
+        {% include 'footer.html' %}
+    </main>
+    {% include 'overlayer.html' %}
+
+    <!-- <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDduF2tLXicDEPDMAtC6-NLOekX0A5vlnY"></script> -->
+    <!-- inject:js-->
+    <script src="{% static 'assets/js/plugins.min.js' %}"></script>
+    <script src="{% static 'assets/js/script.min.js' %}"></script>
+    <!-- endinject-->
+
+    <script>
+        console.log("The Users", "{{ totalUsers }}")
+        chartjsLineChartForcast(
+            "#lineChartforcastOne",
+            label="Line Chart dataset",
+            startGradient="#5F63F212",
+            endGradient="#5F63F202",
+            bColor="#5F63F2",
+            data=[0,0,0,0,0,0,parseInt("{{ totalStudents }}"),]);
+            chartjsLineChartForcast(
+                "#lineChartforcastTwo",
+                label="Line Chart dataset",
+                startGradient="#20C99712",
+                endGradient="#20C99703",
+                bColor="#20C997",
+                data=[0,0,0,0,0,0,parseFloat("{{ totalConsumedLitres }}")]);
+
+               
+        let loc = window.location
+        let start = 'ws://'
+        if (loc.protocol == 'https:') {
+            start = 'wss://'
+        }
+        let endpoint = start + loc.host + '/student-attendance-socket-portal'
+
+        let socket = new WebSocket(endpoint)
+
+        socket.onmessage = function (e) {
+            console.log("message", e.data)
+            data = JSON.parse(e.data)
+            console.log(data);
+
+            let tbody = document.getElementById("tbody_data")
+            let avail = document.getElementById("avail")
+            console.log(data.att_time.$date);
+            let b = data.att_time.$date.split(/\D+/)
+            console.log(b);
+            let at = new Date(Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6]))
+            let month = at.toLocaleString('default', {month: 'long'})
+            let year = at.getUTCFullYear()
+            let hours = at.toLocaleTimeString('en-us', {hour12: '2-digits', timeZone: 'UTC'})
+            let day = at.getUTCDay()
+            let min = at.getUTCMinutes()
+            
+
+            //console.log(month, year, hours, min, day);
+
+
+            tbody.innerHTML += ` <tr>
+                                                        <td>
+                                                            <div class="userDatatable-content">
+                                                                ${data.full_name}
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="userDatatable-content">
+                                                                ${data.regNo}
+                                                            </div>
+                                                        </td>
+                                                        
+    
+                                                        <td>
+                                                            <div class="userDatatable-content">
+                                                                ${month} ${day}, ${year}, ${hours}
+                                                            </div>
+                                                        </td>
+    
+                                                        
+    
+                                                    </tr>`
+            data = avail.innerHTML
+            avail.innerHTML = ` ${parseInt(avail.innerHTML) + 1} `
+        }
+        socket.onopen = function (e) {
+            console.log("Open", e);
+        }
+        socket.onclose = function (e) {
+            console.log("Closed", e);
+        }
+        socket.onerror = function (e) {
+            console.log("error", e);
+        }
+
+
+    </script>
+</body>
+
+
+<!-- Mirrored from demo.jsnorm.com/html/strikingdash/strikingdash/ltr/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 04 Mar 2022 08:41:21 GMT -->
+
+</html>

@@ -1,0 +1,409 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en" dir="ltr">
+
+
+<!-- Mirrored from demo.jsnorm.com/html/strikingdash/strikingdash/ltr/form-validations.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 04 Mar 2022 08:51:39 GMT -->
+
+{% include 'head.html' %}
+<style>
+.partitioned {
+  padding-left: 15px;
+  letter-spacing: 42px;
+  border: 0;
+  background-image: linear-gradient(to left, black 70%, rgba(255, 255, 255, 0) 0%);
+  background-position: bottom;
+  background-size: 50px 1px;
+  background-repeat: repeat-x;
+  background-position-x: 35px;
+  width: 220px;
+  outline : none;
+}
+
+.divInner{
+  left: 0;
+  position: sticky;
+}
+
+.divOuter{
+  width: 190px; 
+  overflow: hidden;
+}
+
+</style>
+<script type="text/javascript">
+    $(document).ready(function(){
+      $("input").val(["check1","check2", "radio1"]);
+    });
+</script>
+<body class="layout-light side-menu overlayScroll">
+    <div class="mobile-search"></div>
+
+    <div class="mobile-author-actions"></div>
+    {% include 'header.html' %}
+    <main class="main-content">
+
+        {% include 'sidebar.html' %}
+
+        <div class="contents">
+
+            <div class="container-fluid">
+                <div class="form-element">
+                    <div class="row">
+                        <div class="col-lg-12">
+    
+                            <div class="breadcrumb-main">
+                                <h1>Course Information</h1>
+                                {%if request.user.last_name == '3' %}
+                                <p> 
+                                    Assurer can not edit Course information.    
+                                </p>
+                                {%endif%} 
+                                <p> 
+                                    {% for message in messages %}
+                                    {{message}}
+                                    {%endfor%}    
+                                </p>
+                                {% if edit_mode ==  True and request.user.is_staff%}
+                                <div class="breadcrumb-action justify-content-center flex-wrap">    
+                                                                                   
+                                    <div class="action-btn">
+                                        <form action="/delete-module" method="post">
+                                            {% csrf_token %}
+                                            <input type="text" style="display: none;" name="module_code" value="{{ data.module_code }}" class="form-control ih-medium ip-light radius-xs b-light" id="validationDefault01" required>
+                                            <button type="submit" class="btn btn-sm btn-danger btn-add">
+                                                <i class="fa fa-trash"></i> Delete Course
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                                {%endif%}
+                            </div>
+    
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card card-default card-md mb-4">
+                                
+                                <div class="card-body pb-md-50">
+                                    {%if request.user.is_staff %}
+                                    <form action="{% if edit_mode == True%}/edit-module/{{id}}{%else%}/register-module{%endif%}" method="POST">
+                                        {% csrf_token %} 
+                                        <div class="form-row mx-n15">
+                                            <div class="col-md-6 mb-20 px-15">
+                                                <label for="validationDefault01" class="il-gray fs-14 fw-500 align-center">
+                                                    Course Name
+                                                </label>
+                                                <input type="text" name="{%if edit_mode == True%}new_module_name{%else%}module_name{%endif%}" value="{{ data.module_name }}" class="form-control ih-medium ip-light radius-xs b-light" id="validationDefault01" required>
+                                                {% if edit_mode == True%} 
+                                                <input type="text" style="display: none;" name="module_name" value="{{ data.module_name }}" class="form-control ih-medium ip-light radius-xs b-light" id="validationDefault01" required>
+                                                {%endif%}
+                                            </div>
+                                            <div class="col-md-6 mb-20 px-15">
+                                                <label for="validationDefault02" class="il-gray fs-14 fw-500 align-center">
+                                                    Course Code
+                                                </label>
+                                                <input type="text" name="{%if edit_mode == True%}new_module_code{%else%}module_code{%endif%}" value="{{ data.module_code }}" class="form-control  ih-medium ip-light radius-xs b-light" id="validationDefault02" required>
+                                                {% if edit_mode == True%} 
+                                                <input type="text" style="display: none;" name="module_code" value="{{ data.module_code }}" class="form-control ih-medium ip-light radius-xs b-light" id="validationDefault01" required>
+                                                {%endif%}
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="form-row mx-n15">
+                                            <div class="col-md-6 mb-20 px-15">
+                                                <label for="validationDefault01" class="il-gray fs-14 fw-500 align-center">
+                                                    Lecturer ID_1
+                                                </label>
+                                                <input type="text" name="staff_id" value="{{ data.lecturer_id }}" class="form-control ih-medium ip-light radius-xs b-light" id="validationDefault01" required>
+                                                
+                                            </div>
+                                            <div class="col-md-6 mb-20 px-15">
+                                                <label for="validationDefault01" class="il-gray fs-14 fw-500 align-center">
+                                                    Lecturer ID_2
+                                                </label>
+                                                <input type="text" name="staff_id_2" value="{{ data.lecturer_id_2 }}" class="form-control ih-medium ip-light radius-xs b-light" id="validationDefault01">
+                                                
+                                            </div>
+                                           
+                                        </div>
+                                        <div class="form-row mx-n15">
+                                            <div class="col-md-6 mb-20 px-15">
+                                                <label for="validationDefault01" class="il-gray fs-14 fw-500 align-center">
+                                                    Session Type {{data.course_type}}
+                                                </label>
+                                                <select type="text" name="course_type" class="form-control  ih-medium ip-light radius-xs b-light" id="validationDefault02" required>
+                                                    
+                                                    {% if edit_mode == True and data.course_type == 'Seminar'%}
+                                                    <option value="Seminar"> Seminar Session </option>
+                                                    <option value="Tutorial">Tutorial Session</option>
+                                                    <option value="Practical">Practical Session</option>
+                                                    
+                                                    {% elif edit_mode == True and data.course_type == 'Tutorial' %}
+    
+                                                    <option value="Tutorial"> Tutorial Session </option>
+                                                    <option value="Seminar">Seminar Session</option>
+                                                    <option value="Practical">Practical Session</option>
+    
+                                                    {% elif edit_mode == True and data.course_type == 'Practical' %}
+    
+                                                    <option value="Practical"> Practical Session </option>
+                                                    <option value="Seminar">Seminar Session</option>
+                                                    <option value="Tutorial">Tutorial Session</option>
+    
+                                                    {%else%}
+    
+                                                    <option value="Tutorial"> Tutorial Session </option>
+                                                    <option value="Seminar">Seminar Session</option>
+                                                    <option value="Practical">Practical Session</option>
+    
+                                                    {%endif%}
+    
+                                                </select>
+                                            </div>
+                                           
+                                           
+                                        </div>
+                                        <div class="form-row mx-n15 mb-25">
+                                            <div class="col-md-4 mb-20 px-15">
+                                                {% if timetable.mon == 'on' %}
+                                                <input type="checkbox" checked name="mon" id=""> Monday
+                                                {%else%}
+                                                <input type="checkbox"  name="mon" id=""> Monday
+                                                {%endif%}
+                                                <div class="divOuter">
+                                                    <div class="divInner">
+                                                       From: <input class="partitioned" value="{{ timetable.mon_from }}" name="mon_from" type="text" maxlength="4" />
+                                                       To: <input class="partitioned" value="{{ timetable.mon_to }}" name="mon_to" type="text" maxlength="4" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 mb-20 px-15">
+                                                {% if timetable.tue == 'on' %}
+                                                <input type="checkbox" checked name="tue" id=""> Tuesday
+                                                {%else%}
+                                                <input type="checkbox"  name="tue" id=""> Tuesday
+                                                {%endif%}
+                                                <div class="divOuter">
+                                                    <div class="divInner">
+                                                       From: <input class="partitioned"  value="{{ timetable.tue_from }}" name="tue_from" type="text" maxlength="4" />
+                                                       To: <input class="partitioned" name="tue_to"  value="{{ timetable.tue_to }}" type="text" maxlength="4" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 mb-20 px-15">
+                                                {% if timetable.wed == 'on' %}
+                                                <input type="checkbox" checked name="wed" id=""> Wednesday
+                                                {%else%}
+                                                <input type="checkbox"  name="wed" id=""> Wednesday
+                                                {%endif%}
+                                                <div class="divOuter">
+                                                    <div class="divInner">
+                                                       From: <input class="partitioned" value="{{ timetable.wed_from }}" name="wed_from" type="text" maxlength="4" />
+                                                       To: <input class="partitioned" value="{{ timetable.wed_to }}" name="wed_to" type="text" maxlength="4" />
+                                                    </div>
+                                                </div>
+                                            </div>                                           
+                                        </div>
+                                        <div class="form-row mx-n15 mb-25">
+                                            <div class="col-md-4 mb-20 px-15">
+                                                {% if timetable.thu == 'on' %}
+                                                <input type="checkbox" checked name="thu" id=""> Thursday
+                                                {%else%}
+                                                <input type="checkbox"  name="thu" id=""> Thursday
+                                                {%endif%}
+                                                <div class="divOuter">
+                                                    <div class="divInner">
+                                                       From: <input class="partitioned" value="{{ timetable.thu_from }}" name="thu_from" type="text" maxlength="4" />
+                                                       To: <input class="partitioned" value="{{ timetable.thu_to }}" name="thu_to" type="text" maxlength="4" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 mb-20 px-15">
+                                                {% if timetable.fri == 'on' %}
+                                                <input type="checkbox" checked name="fri" id=""> Friday
+                                                {%else%}
+                                                <input type="checkbox"  name="fri" id=""> Friday
+                                                {%endif%}
+                                                <div class="divOuter">
+                                                    <div class="divInner">
+                                                       From: <input class="partitioned" value="{{ timetable.fri_from }}" name="fri_from" type="text" maxlength="4" />
+                                                       To: <input class="partitioned" value="{{ timetable.fri_to }}" name="fri_to" type="text" maxlength="4" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                                                                       
+                                        </div>
+                                         
+                                        <button class="btn btn-primary px-30" type="submit">Submit Form</button>
+                                    </form>
+                                    {%endif%}
+                                    {%if not request.user.is_staff and request.user.last_name == '3' %}
+                                    <form action="{% if edit_mode == True%}/edit-module/{{id}}{%else%}register-module{%endif%}" aria-disabled="true" method="POST">
+                                        {% csrf_token %} 
+                                        <div class="form-row mx-n15">
+                                            <div class="col-md-6 mb-20 px-15">
+                                                <label for="validationDefault01" class="il-gray fs-14 fw-500 align-center">
+                                                    Course Name
+                                                </label>
+                                                <input type="text" disabled name="{%if edit_mode == True%}new_module_name{%else%}module_name{%endif%}" value="{{ data.module_name }}" class="form-control ih-medium ip-light radius-xs b-light" id="validationDefault01" required>
+                                                {% if edit_mode == True%} 
+                                                <input type="text" style="display: none;" disabled name="module_name" value="{{ data.module_name }}" class="form-control ih-medium ip-light radius-xs b-light" id="validationDefault01" required>
+                                                {%endif%}
+                                            </div>
+                                            <div class="col-md-6 mb-20 px-15">
+                                                <label for="validationDefault02" disabled class="il-gray fs-14 fw-500 align-center">
+                                                    Course Code
+                                                </label>
+                                                <input type="text" disabled name="{%if edit_mode == True%}new_module_code{%else%}module_code{%endif%}" value="{{ data.module_code }}" class="form-control  ih-medium ip-light radius-xs b-light" id="validationDefault02" required>
+                                                {% if edit_mode == True%} 
+                                                <input type="text" disabled style="display: none;" name="module_code" value="{{ data.module_code }}" class="form-control ih-medium ip-light radius-xs b-light" id="validationDefault01" required>
+                                                {%endif%}
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="form-row mx-n15">
+                                            <div class="col-md-6 mb-20 px-15">
+                                                <label for="validationDefault01" class="il-gray fs-14 fw-500 align-center">
+                                                    Lecturer ID
+                                                </label>
+                                                <input type="text" disabled name="{%if edit_mode == True%}new_lecturer_id{%else%}staff_id{%endif%}" value="{{ data.lecturer_id }}" class="form-control ih-medium ip-light radius-xs b-light" id="validationDefault01" required>
+                                                {% if edit_mode == True%} 
+                                                <input type="text"  style="display: none;" name="staff_id" value="{{ data.lecturer_id }}" class="form-control ih-medium ip-light radius-xs b-light" id="validationDefault01" disabled required>
+                                                {%endif%}
+                                                <input type="text"  style="display: none;" name="hh" class="form-control ih-medium ip-light radius-xs b-light" id="validationDefault01"  required>
+                                                
+                                            </div>
+                                           
+                                        </div>
+                                        <div class="form-row mx-n15 mb-25">
+                                            <div class="col-md-4 mb-20 px-15">
+                                                {% if timetable.mon == 'on' %}
+                                                <input type="checkbox" disabled checked name="mon" id=""> Monday
+                                                {%else%}
+                                                <input type="checkbox" disabled  name="mon" id=""> Monday
+                                                {%endif%}
+                                                <div class="divOuter">
+                                                    <div class="divInner">
+                                                       From: <input class="partitioned" value="{{ timetable.mon_from }}" name="mon_from" type="text" maxlength="4" disabled />
+                                                       To: <input class="partitioned" value="{{ timetable.mon_to }}" name="mon_to" type="text" maxlength="4" disabled />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 mb-20 px-15">
+                                                {% if timetable.tue == 'on' %}
+                                                <input type="checkbox" disabled checked name="tue" id=""> Tuesday
+                                                {%else%}
+                                                <input type="checkbox" disabled  name="tue" id=""> Tuesday
+                                                {%endif%}
+                                                <div class="divOuter">
+                                                    <div class="divInner">
+                                                       From: <input class="partitioned"  value="{{ timetable.tue_from }}" name="tue_from" type="text" maxlength="4" disabled />
+                                                       To: <input class="partitioned" name="tue_to"  value="{{ timetable.tue_to }}" type="text" maxlength="4" disabled />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 mb-20 px-15">
+                                                {% if timetable.wed == 'on' %}
+                                                <input type="checkbox" disabled checked name="wed" id=""> Wednesday
+                                                {%else%}
+                                                <input type="checkbox"  name="wed" id=""> Wednesday
+                                                {%endif%}
+                                                <div class="divOuter">
+                                                    <div class="divInner">
+                                                       From: <input class="partitioned" value="{{ timetable.wed_from }}" name="wed_from" type="text" maxlength="4" disabled />
+                                                       To: <input class="partitioned" value="{{ timetable.wed_to }}" name="wed_to" type="text" maxlength="4" disabled />
+                                                    </div>
+                                                </div>
+                                            </div>                                           
+                                        </div>
+                                        <div class="form-row mx-n15 mb-25">
+                                            <div class="col-md-4 mb-20 px-15">
+                                                {% if timetable.thu == 'on' %}
+                                                <input type="checkbox" disabled checked name="thu" id=""> Thursday
+                                                {%else%}
+                                                <input type="checkbox" disabled  name="thu" id=""> Thursday
+                                                {%endif%}
+                                                <div class="divOuter">
+                                                    <div class="divInner">
+                                                       From: <input class="partitioned" value="{{ timetable.thu_from }}" name="thu_from" type="text" maxlength="4" disabled />
+                                                       To: <input class="partitioned" value="{{ timetable.thu_to }}" name="thu_to" type="text" maxlength="4" disabled />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 mb-20 px-15">
+                                                {% if timetable.fri == 'on' %}
+                                                <input type="checkbox" disabled checked name="fri" id=""> Friday
+                                                {%else%}
+                                                <input type="checkbox"  disabled name="fri" id=""> Friday
+                                                {%endif%}
+                                                <div class="divOuter">
+                                                    <div class="divInner">
+                                                       From: <input class="partitioned" value="{{ timetable.fri_from }}" name="fri_from" type="text" maxlength="4" disabled />
+                                                       To: <input class="partitioned" value="{{ timetable.fri_to }}" name="fri_to" type="text" maxlength="4" disabled />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                                                                       
+                                        </div>
+                                         
+                                        
+                                    </form>
+                                    {%endif%}
+                                </div>
+                            </div>
+                            <!-- ends: .card -->
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        {% include 'footer.html' %}
+    </main>
+   {% include 'overlayer.html' %}
+   <script>
+       var obj = document.getElementsByClassName('partitioned');
+obj.addEventListener('keydown', stopCarret); 
+obj.addEventListener('keyup', stopCarret); 
+
+function stopCarret() {
+    if (obj.value.length > 3){
+        setCaretPosition(obj, 3);
+    }
+}
+
+function setCaretPosition(elem, caretPos) {
+    if(elem != null) {
+        if(elem.createTextRange) {
+            var range = elem.createTextRange();
+            range.move('character', caretPos);
+            range.select();
+        }
+        else {
+            if(elem.selectionStart) {
+                elem.focus();
+                elem.setSelectionRange(caretPos, caretPos);
+            }
+            else
+                elem.focus();
+        }
+    }
+}
+   </script>
+
+    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDduF2tLXicDEPDMAtC6-NLOekX0A5vlnY"></script>
+    <!-- inject:js-->
+    <script src="{% static 'assets/js/plugins.min.js' %}"></script>
+    <script src="{% static 'assets/js/script.min.js' %}"></script>
+    <!-- endinject-->
+</body>
+
+
+<!-- Mirrored from demo.jsnorm.com/html/strikingdash/strikingdash/ltr/form-validations.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 04 Mar 2022 08:51:39 GMT -->
+
+</html>

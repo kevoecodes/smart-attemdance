@@ -1,0 +1,136 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en" dir="ltr">
+
+
+{% include 'head.html' %}
+<style>
+    table thead th {
+        padding-bottom: 10px;
+        padding-top: 10px;
+        border-bottom: 1px rgba(168, 161, 161, 0.89) solid;
+    }
+    table tbody tr  td{
+        padding-bottom: 5px;
+        padding-top: 5px;
+        
+        
+    }
+</style>
+
+<body class="layout-light side-menu overlayScroll">
+    <!-- <div class="mobile-search"></div> -->
+
+    <div class="mobile-author-actions"></div>
+    {% include 'header.html' %}
+    <main class="main-content">
+
+        {% include 'sidebar.html' %}
+
+        <div class="contents">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+    
+                        <div class="breadcrumb-main">
+                            {%if att_avail ==  False%}
+                            <h4 class="text-capitalize breadcrumb-title">Choose Course Code</h4>
+                            {%else%}
+                            <h4 class="text-capitalize breadcrumb-title">{{module.module_name}} ({{module.module_code}}) Attendance Sheet</h4>
+                            {%endif%}
+                            
+                        </div>
+    
+                    </div>
+                </div>
+                {% if att_avail == False %}
+                <div class="card-body pb-md-50">
+                    <form action="class-attendance" method="POST">
+                        {% csrf_token %} 
+                        <div class="form-row mx-n15">
+                            
+                            <div class="col-md-6 mb-20 px-15">
+                                <label for="validationDefault02" class="il-gray fs-14 fw-500 align-center">
+                                    Course Code
+                                </label>
+                                <select type="text" name="module_code" class="form-control  ih-medium ip-light radius-xs b-light" id="validationDefault02" placeholder="Clayton" required>
+                                    {% for module in modules %}
+                                    <option value="{{module.module_code}}"> {{module.module_code}} </option>
+                                    {%endfor%}
+                                    
+                                </select>
+                            </div>
+                            
+                        </div>
+
+                        <button class="btn btn-primary px-30" type="submit">Process</button>
+                    </form>
+                </div>
+                {% else %}
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body p-0">
+                                <div class="table4  p-25 bg-white mb-30">
+                                    <div class="table-responsive">
+                                        <table style="font-size: small; width: 100%;" class="mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: fit-content;">Student</th>
+                                                    {% for i in rang %}
+                                                    <th>{{i}}</th>
+                                                    {%endfor%}
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for att in att_data %}
+                                                <tr>
+                                                    <td>
+                                                        <div class="userDatatable-content">
+                                                            {{ att.full_name }}
+                                                        </div>
+                                                    </td>
+                                                    <!-- <td><i class="fa fa-close text-danger"></i> </td> -->
+                                                    
+                                                    <!-- <td><i class="fa fa-check text-success"></i> </td> -->
+                                                    {% for i in the_data %}
+                                                    <td>
+                                                        {% if i.day in att.cols %}
+                                                            <i class="fa fa-check text-success"></i>
+                                                        {% elif i.day not in att.cols and i.day < today and i.is_class == True and i.weekend == False %}
+                                                            <i class="fa fa-times text-danger"></i> 
+                                                        {% elif i.day not in att.cols and i.weekend == True %}
+                                                            <b>w</b>
+                                                        {% endif %}
+                                                    </td>
+                                                    {% endfor %}
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody> 
+                                            
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {%endif%}
+            </div>
+        </div>
+
+        </div>
+        {% include 'footer.html' %}
+    </main>
+   {% include 'overlayer.html' %}
+
+    <!-- <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDduF2tLXicDEPDMAtC6-NLOekX0A5vlnY"></script> -->
+    <!-- inject:js-->
+    <script src="{% static 'assets/js/plugins.min.js' %}"></script>
+    <script src="{% static 'assets/js/script.min.js' %}"></script>
+    <!-- endinject-->
+</body>
+
+</html>

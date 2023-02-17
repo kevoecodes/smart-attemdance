@@ -7,6 +7,7 @@ from bson import json_util
 from Modules_Management.MongoCRUD import MongoModulesManager
 # Create your views here.
 
+
 class GetStudentMondules(APIView):
     permission_classes = ()
     def post(self, request, *args, **kwargs):
